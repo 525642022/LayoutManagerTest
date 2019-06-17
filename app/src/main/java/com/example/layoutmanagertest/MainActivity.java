@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 
-import com.example.layoutmanagertest.layoutmanager.echelon.TrapezoidLayoutManager;
+import com.example.layoutmanagertest.layoutmanager.trapezoid.TrapezoidLayoutManager;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 

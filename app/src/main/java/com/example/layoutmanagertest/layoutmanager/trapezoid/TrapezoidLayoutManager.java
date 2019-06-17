@@ -1,4 +1,4 @@
-package com.example.layoutmanagertest.layoutmanager.echelon;
+package com.example.layoutmanagertest.layoutmanager.trapezoid;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

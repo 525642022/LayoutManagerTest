@@ -1,4 +1,4 @@
-package com.example.layoutmanagertest.layoutmanager.echelon;
+package com.example.layoutmanagertest.layoutmanager.trapezoid;
 
 
 public class ItemViewInfo {
