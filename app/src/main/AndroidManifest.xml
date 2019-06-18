@@ -18,6 +18,7 @@
     </activity>
         <activity android:name=".activity.ArcActivity"/>
         <activity android:name=".activity.TrapezoidActivity"/>
+        <activity android:name=".activity.TanTanActivity"/>
 
     </application>
 
