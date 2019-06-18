@@ -63,6 +63,26 @@ public class TrapezoidLayoutManager extends RecyclerView.LayoutManager {
         int bottomItemVisibleHeight = mScrollOffset % mItemViewHeight;
         ArrayList<ItemViewInfo> viewInfoArrayList = createItemViewInfoList(bottomItemPosition, bottomItemVisibleHeight);
         if (bottomItemPosition < mItemCount) {
+                final int start = getVerticalSpace() - bottomItemVisibleHeight;
+                ItemViewInfo itemViewInfo = new ItemViewInfo(start,
+                        1.0f);
+                viewInfoArrayList.add(itemViewInfo);
+            } else {
+                bottomItemPosition = bottomItemPosition - 1;
+            }
+        detachAndScrapAttachedViews(recycler);
+        drawView(recycler, bottomItemPosition, viewInfoArrayList);
+
+    }
+
+    /***
+     * 当条目较少是添加一个空的View防止滑动的闪烁问题
+     * @param bottomItemPosition
+     * @param bottomItemVisibleHeight
+     * @param viewInfoArrayList
+     */
+    private void addEmptyView(int bottomItemPosition, int bottomItemVisibleHeight, List viewInfoArrayList) {
+        if (bottomItemPosition < mItemCount) {
             final int start = getVerticalSpace() - bottomItemVisibleHeight;
             ItemViewInfo itemViewInfo = new ItemViewInfo(start,
                     1.0f);
@@ -70,11 +90,7 @@ public class TrapezoidLayoutManager extends RecyclerView.LayoutManager {
         } else {
             bottomItemPosition = bottomItemPosition - 1;
         }
-        detachAndScrapAttachedViews(recycler);
-        drawView(recycler, bottomItemPosition, viewInfoArrayList);
-
     }
-
 
     /***
      * 绘制View

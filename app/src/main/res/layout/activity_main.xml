@@ -6,9 +6,33 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/layoutTestRv"
+    <TextView
+        android:id="@+id/trapezoid_tv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="center"
+        android:text="梯形LayoutManager"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/arc_tv"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="center"
+        android:text="弧形LayoutManager"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/trapezoid_tv" />
+
 
 </android.support.constraint.ConstraintLayout>
