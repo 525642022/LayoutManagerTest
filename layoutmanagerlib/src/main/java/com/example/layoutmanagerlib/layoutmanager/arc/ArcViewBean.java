@@ -1,4 +1,4 @@
-package com.example.layoutmanagertest.layoutmanager.arc;
+package com.example.layoutmanagerlib.layoutmanager.arc;
 //确定一个Item所需要的属性
 
 public class ArcViewBean {

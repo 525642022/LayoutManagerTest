@@ -3,19 +3,12 @@ package com.example.layoutmanagertest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
 import com.example.layoutmanagertest.activity.ArcActivity;
 import com.example.layoutmanagertest.activity.TanTanActivity;
 import com.example.layoutmanagertest.activity.TrapezoidActivity;
-import com.example.layoutmanagertest.layoutmanager.arc.ArcLayoutManager;
-import com.zhy.adapter.recyclerview.CommonAdapter;
-import com.zhy.adapter.recyclerview.base.ViewHolder;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private TextView trapezoid_tv;

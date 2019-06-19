@@ -1,4 +1,4 @@
-package com.example.layoutmanagertest.layoutmanager.tantantest;
+package com.example.layoutmanagerlib.layoutmanager.tantantest;
 
 import java.util.ArrayList;
 import java.util.List;

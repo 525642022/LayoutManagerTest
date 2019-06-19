@@ -6,10 +6,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.TypedValue;
 
+import com.example.layoutmanagerlib.layoutmanager.tantantest.TanTanControl;
+import com.example.layoutmanagerlib.layoutmanager.tantantest.TanTanLayoutManager;
+import com.example.layoutmanagerlib.layoutmanager.tantantest.TanTanTouchCallback;
 import com.example.layoutmanagertest.R;
-import com.example.layoutmanagertest.layoutmanager.tantantest.TanTanControl;
-import com.example.layoutmanagertest.layoutmanager.tantantest.TanTanLayoutManager;
-import com.example.layoutmanagertest.layoutmanager.tantantest.TanTanTouchCallback;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 

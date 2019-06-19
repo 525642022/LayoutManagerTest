@@ -1,4 +1,4 @@
-package com.example.layoutmanagertest.layoutmanager.arc;
+package com.example.layoutmanagerlib.layoutmanager.arc;
 
 import java.util.ArrayList;
 

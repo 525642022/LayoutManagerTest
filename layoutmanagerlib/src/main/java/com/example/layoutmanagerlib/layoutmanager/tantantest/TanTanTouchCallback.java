@@ -1,27 +1,27 @@
-package com.example.layoutmanagertest.layoutmanager.tantantest;
+package com.example.layoutmanagerlib.layoutmanager.tantantest;
 
 import android.graphics.Canvas;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
-import com.example.layoutmanagertest.R;
+import com.example.layoutmanagerlib.R;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
 import java.util.List;
 
 public class TanTanTouchCallback extends ItemTouchHelper.SimpleCallback {
-    private  RecyclerView mRv;
+    private RecyclerView mRv;
     private List mDatas;
     private RecyclerView.Adapter mAdapter;
     private TanTanControl tanTanControl;
 
-    public TanTanTouchCallback(RecyclerView rv, RecyclerView.Adapter adapter, List datas,TanTanControl tanTanControl) {
+    public TanTanTouchCallback(RecyclerView rv, RecyclerView.Adapter adapter, List datas, TanTanControl tanTanControl) {
         super(0, ItemTouchHelper.DOWN | ItemTouchHelper.UP | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         mRv = rv;
         mAdapter = adapter;
         mDatas = datas;
-        this.tanTanControl =tanTanControl;
+        this.tanTanControl = tanTanControl;
     }
 
     @Override
@@ -68,7 +68,7 @@ public class TanTanTouchCallback extends ItemTouchHelper.SimpleCallback {
             int level = childCount - i - 1;
             if (level > 0) {
                 //说有层数都进行X方形的变形
-                child.setScaleX((float) (1 - tanTanControl.getScale()* level + fraction * tanTanControl.getScale()));
+                child.setScaleX((float) (1 - tanTanControl.getScale() * level + fraction * tanTanControl.getScale()));
                 if (level < tanTanControl.getCount() - 1) {
                     child.setScaleY((float) (1 - tanTanControl.getScale() * level + fraction * tanTanControl.getScale()));
                     child.setTranslationY((float) (tanTanControl.getTranslateY() * level - fraction * tanTanControl.getTranslateY()));

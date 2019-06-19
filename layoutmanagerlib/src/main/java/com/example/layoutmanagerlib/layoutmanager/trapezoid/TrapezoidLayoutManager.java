@@ -1,11 +1,10 @@
-package com.example.layoutmanagertest.layoutmanager.trapezoid;
+package com.example.layoutmanagerlib.layoutmanager.trapezoid;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.example.layoutmanagertest.layoutmanager.base.BaseLayoutManager;
+import com.example.layoutmanagerlib.layoutmanager.base.BaseLayoutManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TrapezoidLayoutManager extends BaseLayoutManager<TrapezoidViewBean> {
@@ -20,9 +19,8 @@ public class TrapezoidLayoutManager extends BaseLayoutManager<TrapezoidViewBean>
 
 
     public TrapezoidLayoutManager(TrapezoidControl trapezoidControl) {
-      this.trapezoidControl = trapezoidControl;
+        this.trapezoidControl = trapezoidControl;
     }
-
 
 
     @Override
@@ -31,16 +29,13 @@ public class TrapezoidLayoutManager extends BaseLayoutManager<TrapezoidViewBean>
     }
 
 
-
-
     @Override
     public int scrollVerticallyBy(int dy, RecyclerView.Recycler recycler, RecyclerView.State state) {
         int pendingScrollOffset = mScrollOffset + dy;
         mScrollOffset = Math.min(Math.max(mItemViewHeight, mScrollOffset + dy), mItemCount * mItemViewHeight);
-        onLayoutChildren(recycler,state);
+        onLayoutChildren(recycler, state);
         return mScrollOffset - pendingScrollOffset + dy;
     }
-
 
 
     @Override
@@ -55,7 +50,7 @@ public class TrapezoidLayoutManager extends BaseLayoutManager<TrapezoidViewBean>
     public List createItemViewInfoList() {
         int bottomItemPosition = (int) Math.floor(mScrollOffset / mItemViewHeight);
         int bottomItemVisibleHeight = mScrollOffset % mItemViewHeight;
-        return trapezoidControl.createItemViewInfoList(bottomItemPosition,bottomItemVisibleHeight,getVerticalSpace(),mItemViewHeight,getItemCount());
+        return trapezoidControl.createItemViewInfoList(bottomItemPosition, bottomItemVisibleHeight, getVerticalSpace(), mItemViewHeight, getItemCount());
     }
 
     @Override
@@ -77,6 +72,7 @@ public class TrapezoidLayoutManager extends BaseLayoutManager<TrapezoidViewBean>
             view.setScaleY(layoutInfo.getScaleXY());
         }
     }
+
     /**
      * 测量itemview的确切大小
      */

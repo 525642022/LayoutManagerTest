@@ -1,11 +1,11 @@
-package com.example.layoutmanagertest.layoutmanager.arc;
+package com.example.layoutmanagerlib.layoutmanager.arc;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.example.layoutmanagertest.layoutmanager.base.BaseLayoutManager;
+import com.example.layoutmanagerlib.layoutmanager.base.BaseLayoutManager;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 /***

@@ -1,4 +1,4 @@
-package com.example.layoutmanagertest.layoutmanager.tantantest;
+package com.example.layoutmanagerlib.layoutmanager.tantantest;
 
 public class TanTanBean {
     private int translateY;

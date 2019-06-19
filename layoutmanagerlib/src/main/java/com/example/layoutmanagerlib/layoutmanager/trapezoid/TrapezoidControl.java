@@ -1,4 +1,4 @@
-package com.example.layoutmanagertest.layoutmanager.trapezoid;
+package com.example.layoutmanagerlib.layoutmanager.trapezoid;
 
 import java.util.ArrayList;
 

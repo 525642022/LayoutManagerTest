@@ -1,4 +1,4 @@
-package com.example.layoutmanagertest.layoutmanager.base;
+package com.example.layoutmanagerlib.layoutmanager.base;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;

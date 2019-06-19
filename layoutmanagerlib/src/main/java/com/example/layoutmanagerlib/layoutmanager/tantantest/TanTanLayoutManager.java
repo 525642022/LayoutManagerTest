@@ -1,16 +1,16 @@
-package com.example.layoutmanagertest.layoutmanager.tantantest;
+package com.example.layoutmanagerlib.layoutmanager.tantantest;
 
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 
-import com.example.layoutmanagertest.layoutmanager.base.BaseLayoutManager;
+import com.example.layoutmanagerlib.layoutmanager.base.BaseLayoutManager;
 
 import java.util.List;
 
 public class TanTanLayoutManager extends BaseLayoutManager<TanTanBean> {
-    private  static final  String  TAG = "TanTanLayoutManager";
+    private static final String TAG = "TanTanLayoutManager";
     TanTanControl tanTanControl;
 
     public TanTanLayoutManager(TanTanControl tanTanControl) {
@@ -43,7 +43,7 @@ public class TanTanLayoutManager extends BaseLayoutManager<TanTanBean> {
             layoutDecoratedWithMargins(view, widthSpace / 2, heightSpace / 4,
                     widthSpace / 2 + getDecoratedMeasuredWidth(view),
                     heightSpace / 4 + getDecoratedMeasuredHeight(view));
-            Log.e(TAG,tanTanBean.toString());
+            Log.e(TAG, tanTanBean.toString());
             if (tanTanBean.getLevel() > 0) {
                 view.setScaleX(tanTanBean.getScaleX());
                 view.setTranslationY(tanTanBean.getTranslateY());
