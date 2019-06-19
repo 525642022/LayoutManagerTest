@@ -14,10 +14,10 @@
 2.添加依赖
 
 
-dependencies {
-	         implementation 'com.github.525642022:LayoutManagerTest:1.0'
+	dependencies{
+		 implementation 'com.github.525642022:LayoutManagerTest:1.0'
 	}
- 
+
  
  
  
