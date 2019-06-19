@@ -1,11 +1,11 @@
 package com.example.layoutmanagertest.layoutmanager.trapezoid;
 
 
-public class ItemViewInfo {
+public class TrapezoidViewBean {
     private float scaleXY;
     private int top;
 
-    public ItemViewInfo(int top, float scaleXY) {
+    public TrapezoidViewBean(int top, float scaleXY) {
         this.top = top;
         this.scaleXY = scaleXY;
 

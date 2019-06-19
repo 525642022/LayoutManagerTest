@@ -4,9 +4,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.TypedValue;
 
 import com.example.layoutmanagertest.R;
-import com.example.layoutmanagertest.layoutmanager.tantantest.CardConfig;
+import com.example.layoutmanagertest.layoutmanager.tantantest.TanTanControl;
 import com.example.layoutmanagertest.layoutmanager.tantantest.TanTanLayoutManager;
 import com.example.layoutmanagertest.layoutmanager.tantantest.TanTanTouchCallback;
 import com.zhy.adapter.recyclerview.CommonAdapter;
@@ -25,11 +26,14 @@ public class TanTanActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CardConfig.initConfig(this);
+
         setContentView(R.layout.activity_rv);
         layoutTestRv = findViewById(R.id.layoutTestRv);
         initData();
-        layoutTestRv.setLayoutManager(new TanTanLayoutManager());
+        TanTanControl tanTanControl = new TanTanControl(4
+                , 0.05f
+                ,(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, getResources().getDisplayMetrics()));
+        layoutTestRv.setLayoutManager(new TanTanLayoutManager(tanTanControl));
         mAdapter = new CommonAdapter<String>(this, R.layout.item_tantan_card, list) {
             @Override
             protected void convert(ViewHolder holder, String o, int position) {
@@ -37,7 +41,7 @@ public class TanTanActivity extends AppCompatActivity {
             }
 
         };
-        ItemTouchHelper.Callback callback = new TanTanTouchCallback(layoutTestRv, mAdapter, list);
+        ItemTouchHelper.Callback callback = new TanTanTouchCallback(layoutTestRv, mAdapter, list,tanTanControl);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(layoutTestRv);
         layoutTestRv.setAdapter(mAdapter);

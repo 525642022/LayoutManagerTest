@@ -3,47 +3,48 @@ package com.example.layoutmanagertest.layoutmanager.trapezoid;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.example.layoutmanagertest.layoutmanager.base.BaseLayoutManager;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrapezoidLayoutManager extends RecyclerView.LayoutManager {
+public class TrapezoidLayoutManager extends BaseLayoutManager<TrapezoidViewBean> {
+    private TrapezoidControl trapezoidControl;
     private int mItemViewWidth;
     private int mItemViewHeight;
     private int mItemCount;
     private float mProportion_h_w = 1.46f;
     private float mProportion_w = 0.9f;
-    private float mScale = 0.95f;
-    private float mTranslateY = 0.9f;
+
     private int mScrollOffset = Integer.MAX_VALUE;
 
 
-    public TrapezoidLayoutManager() {
-        mItemViewWidth = (int) (getHorizontalSpace() * mProportion_w);//item的宽
-        mItemViewHeight = (int) (mItemViewWidth * mProportion_h_w);//item的高
+    public TrapezoidLayoutManager(TrapezoidControl trapezoidControl) {
+      this.trapezoidControl = trapezoidControl;
     }
 
-    @Override
-    public RecyclerView.LayoutParams generateDefaultLayoutParams() {
-        return new RecyclerView.LayoutParams(RecyclerView.LayoutParams.WRAP_CONTENT,
-                RecyclerView.LayoutParams.WRAP_CONTENT);
-    }
+
 
     @Override
     public boolean canScrollVertically() {
         return true;
     }
 
+
+
+
     @Override
-    public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
-        //在这里重新绘制View
-        if (state.getItemCount() == 0 || state.isPreLayout()) return;
-        removeAndRecycleAllViews(recycler);
-        initItemView();
-        layoutChildView(recycler);
+    public int scrollVerticallyBy(int dy, RecyclerView.Recycler recycler, RecyclerView.State state) {
+        int pendingScrollOffset = mScrollOffset + dy;
+        mScrollOffset = Math.min(Math.max(mItemViewHeight, mScrollOffset + dy), mItemCount * mItemViewHeight);
+        onLayoutChildren(recycler,state);
+        return mScrollOffset - pendingScrollOffset + dy;
     }
 
-    //初始化信息
-    private void initItemView() {
+
+
+    @Override
+    public void initItemView(RecyclerView.Recycler recycler) {
         mItemViewWidth = (int) (getHorizontalSpace() * mProportion_w);//item的宽
         mItemViewHeight = (int) (mItemViewWidth * mProportion_h_w);//item的高
         mItemCount = getItemCount();
@@ -51,59 +52,21 @@ public class TrapezoidLayoutManager extends RecyclerView.LayoutManager {
     }
 
     @Override
-    public int scrollVerticallyBy(int dy, RecyclerView.Recycler recycler, RecyclerView.State state) {
-        int pendingScrollOffset = mScrollOffset + dy;
-        mScrollOffset = Math.min(Math.max(mItemViewHeight, mScrollOffset + dy), mItemCount * mItemViewHeight);
-        layoutChildView(recycler);
-        return mScrollOffset - pendingScrollOffset + dy;
-    }
-
-    private void layoutChildView(RecyclerView.Recycler recycler) {
+    public List createItemViewInfoList() {
         int bottomItemPosition = (int) Math.floor(mScrollOffset / mItemViewHeight);
         int bottomItemVisibleHeight = mScrollOffset % mItemViewHeight;
-        ArrayList<ItemViewInfo> viewInfoArrayList = createItemViewInfoList(bottomItemPosition, bottomItemVisibleHeight);
-        if (bottomItemPosition < mItemCount) {
-                final int start = getVerticalSpace() - bottomItemVisibleHeight;
-                ItemViewInfo itemViewInfo = new ItemViewInfo(start,
-                        1.0f);
-                viewInfoArrayList.add(itemViewInfo);
-            } else {
-                bottomItemPosition = bottomItemPosition - 1;
-            }
-        detachAndScrapAttachedViews(recycler);
-        drawView(recycler, bottomItemPosition, viewInfoArrayList);
-
+        return trapezoidControl.createItemViewInfoList(bottomItemPosition,bottomItemVisibleHeight,getVerticalSpace(),mItemViewHeight,getItemCount());
     }
 
-    /***
-     * 当条目较少是添加一个空的View防止滑动的闪烁问题
-     * @param bottomItemPosition
-     * @param bottomItemVisibleHeight
-     * @param viewInfoArrayList
-     */
-    private void addEmptyView(int bottomItemPosition, int bottomItemVisibleHeight, List viewInfoArrayList) {
-        if (bottomItemPosition < mItemCount) {
-            final int start = getVerticalSpace() - bottomItemVisibleHeight;
-            ItemViewInfo itemViewInfo = new ItemViewInfo(start,
-                    1.0f);
-            viewInfoArrayList.add(itemViewInfo);
-        } else {
-            bottomItemPosition = bottomItemPosition - 1;
-        }
-    }
+    @Override
+    public void drawView(RecyclerView.Recycler recycler, RecyclerView.State state, List<TrapezoidViewBean> itemViewList) {
 
-    /***
-     * 绘制View
-     * @param recycler
-     * @param bottomItemPosition
-     * @param viewInfoArrayList
-     */
-    private void drawView(RecyclerView.Recycler recycler, int bottomItemPosition, List<ItemViewInfo> viewInfoArrayList) {
-        int layoutCount = viewInfoArrayList.size();
-        final int startPos = bottomItemPosition - (layoutCount - 1);
+
+        int layoutCount = itemViewList.size();
+        final int startPos = trapezoidControl.getBottomItemPosition() - (layoutCount - 1);
         for (int i = 0; i < layoutCount; i++) {
             View view = recycler.getViewForPosition(startPos + i);
-            ItemViewInfo layoutInfo = viewInfoArrayList.get(i);
+            TrapezoidViewBean layoutInfo = itemViewList.get(i);
             addView(view);
             measureChildWithExactlySize(view);
             int left = (getHorizontalSpace() - mItemViewWidth) / 2;
@@ -114,46 +77,6 @@ public class TrapezoidLayoutManager extends RecyclerView.LayoutManager {
             view.setScaleY(layoutInfo.getScaleXY());
         }
     }
-
-    /***
-     * 创建bean
-     * @param bottomItemPosition
-     * @param bottomItemVisibleHeight
-     * @return
-     */
-    private ArrayList<ItemViewInfo> createItemViewInfoList(int bottomItemPosition, float bottomItemVisibleHeight) {
-        ArrayList<ItemViewInfo> viewInfoArrayList = new ArrayList<>();
-        int remainSpace = getVerticalSpace() - mItemViewHeight;
-        final float offsetPercentRelativeToItemView = bottomItemVisibleHeight * 1.0f / mItemViewHeight;
-        for (int i = bottomItemPosition - 1, j = 1; i >= 0; i--, j++) {
-            double maxOffset = (getVerticalSpace() - mItemViewHeight) / 2 * Math.pow(0.9, j);
-            int top = (int) (remainSpace - offsetPercentRelativeToItemView * maxOffset);
-            float scaleXY = (float) (Math.pow(mScale, j - 1) * (1 - offsetPercentRelativeToItemView * (1 - mScale)));
-            ItemViewInfo info = new ItemViewInfo(top, scaleXY);
-            viewInfoArrayList.add(0, info);
-            remainSpace = (int) (remainSpace - maxOffset);
-            if (remainSpace <= 0) {
-                info.setTop((int) (remainSpace + maxOffset));
-                break;
-            }
-        }
-        return viewInfoArrayList;
-    }
-
-    /**
-     * 获取RecyclerView的显示高度
-     */
-    public int getVerticalSpace() {
-        return getHeight() - getPaddingTop() - getPaddingBottom();
-    }
-
-    /**
-     * 获取RecyclerView的显示宽度
-     */
-    public int getHorizontalSpace() {
-        return getWidth() - getPaddingLeft() - getPaddingRight();
-    }
-
     /**
      * 测量itemview的确切大小
      */

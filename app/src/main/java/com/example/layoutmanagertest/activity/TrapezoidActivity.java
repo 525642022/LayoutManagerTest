@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.example.layoutmanagertest.R;
 import com.example.layoutmanagertest.layoutmanager.arc.ArcLayoutManager;
+import com.example.layoutmanagertest.layoutmanager.trapezoid.TrapezoidControl;
 import com.example.layoutmanagertest.layoutmanager.trapezoid.TrapezoidLayoutManager;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
@@ -24,7 +25,8 @@ public class TrapezoidActivity extends AppCompatActivity {
         setContentView(R.layout.activity_rv);
         layoutTestRv = findViewById(R.id.layoutTestRv);
         initData();
-        TrapezoidLayoutManager trapezoidLayoutManager = new TrapezoidLayoutManager();
+        TrapezoidControl trapezoidControl =new TrapezoidControl(0.95f,0.9f);
+        TrapezoidLayoutManager trapezoidLayoutManager = new TrapezoidLayoutManager(trapezoidControl);
         layoutTestRv.setLayoutManager(trapezoidLayoutManager);
         mAdapter = new CommonAdapter<String>(this, R.layout.item_arc_card, list) {
             @Override

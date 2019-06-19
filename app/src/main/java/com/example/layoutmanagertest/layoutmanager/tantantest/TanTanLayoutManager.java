@@ -2,62 +2,54 @@ package com.example.layoutmanagertest.layoutmanager.tantantest;
 
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 
-public class TanTanLayoutManager extends RecyclerView.LayoutManager {
+import com.example.layoutmanagertest.layoutmanager.base.BaseLayoutManager;
 
-    @Override
-    public RecyclerView.LayoutParams generateDefaultLayoutParams() {
-        return new RecyclerView.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+import java.util.List;
+
+public class TanTanLayoutManager extends BaseLayoutManager<TanTanBean> {
+    private  static final  String  TAG = "TanTanLayoutManager";
+    TanTanControl tanTanControl;
+
+    public TanTanLayoutManager(TanTanControl tanTanControl) {
+        this.tanTanControl = tanTanControl;
     }
 
     @Override
-    public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
-        // 先移除所有view
-        removeAllViews();
-        // 在布局之前，将所有的子 View 先 Detach 掉，放入到 Scrap 缓存中
-        detachAndScrapAttachedViews(recycler);
-        //获取条目数量
+    public void initItemView(RecyclerView.Recycler recycler) {
+
+    }
+
+    @Override
+    public List<TanTanBean> createItemViewInfoList() {
+        return tanTanControl.createItemViewInfoList(getItemCount());
+    }
+
+    @Override
+    public void drawView(RecyclerView.Recycler recycler, RecyclerView.State state, List<TanTanBean> itemViewList) {
         int itemCount = getItemCount();
         if (itemCount < 1) {
             return;
         }
-        //定义边界 防止数组越界
-        int lastPosition;
-        if (itemCount < CardConfig.DEFAULT_COUNT) {
-            lastPosition = 0;
-        } else {
-            lastPosition = itemCount - CardConfig.DEFAULT_COUNT;
-        }
-        //从看见层的底层一次网上添加
-        for (int position = lastPosition; position < itemCount; position++) {
-            View view = recycler.getViewForPosition(position);
+        for (int i = 0; i < itemViewList.size(); i++) {
+            TanTanBean tanTanBean = itemViewList.get(i);
+            View view = recycler.getViewForPosition(itemCount - tanTanBean.getLevel() - 1);
             addView(view);
             measureChildWithMargins(view, 0, 0);
             int widthSpace = getWidth() - getDecoratedMeasuredWidth(view);
             int heightSpace = getHeight() - getDecoratedMeasuredHeight(view);
-            //将childView设置水平居中
             layoutDecoratedWithMargins(view, widthSpace / 2, heightSpace / 4,
                     widthSpace / 2 + getDecoratedMeasuredWidth(view),
-                    heightSpace / 4+ getDecoratedMeasuredHeight(view));
-            //获取当前的层数
-            int level = itemCount - position - 1;
-            //设置每层的Scale和translationY
-            if(level>0){
-                //不是第一层
-                //设置每一层X方向的缩小
-                view.setScaleX(1-CardConfig.DEFAULT_SCALE*level);
-                if(level<CardConfig.DEFAULT_COUNT-1){
-                    //Y需要缩小的和位移
-                    view.setTranslationY(CardConfig.DEFAULT_TRANS_Y * level);
-                    view.setScaleY(1 - CardConfig.DEFAULT_SCALE * level);
-                }else{
-                    //不需要缩小和位移只需要和前一层保持一致
-                    view.setTranslationY(CardConfig.DEFAULT_TRANS_Y * (level - 1));
-                    view.setScaleY(1 - CardConfig.DEFAULT_SCALE * (level - 1));
-                }
+                    heightSpace / 4 + getDecoratedMeasuredHeight(view));
+            Log.e(TAG,tanTanBean.toString());
+            if (tanTanBean.getLevel() > 0) {
+                view.setScaleX(tanTanBean.getScaleX());
+                view.setTranslationY(tanTanBean.getTranslateY());
+                view.setScaleY(tanTanBean.getScaleY());
             }
         }
     }
 }
+

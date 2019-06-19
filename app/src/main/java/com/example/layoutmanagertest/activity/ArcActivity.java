@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 
 import com.example.layoutmanagertest.R;
+import com.example.layoutmanagertest.layoutmanager.arc.ArcControl;
 import com.example.layoutmanagertest.layoutmanager.arc.ArcLayoutManager;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
@@ -23,7 +24,8 @@ public class ArcActivity extends AppCompatActivity {
         setContentView(R.layout.activity_rv);
         layoutTestRv = findViewById(R.id.layoutTestRv);
         initData();
-        ArcLayoutManager arcLayoutManager = new ArcLayoutManager();
+        ArcControl arcControl = new ArcControl(400,30,0,10,-120,120);
+        ArcLayoutManager arcLayoutManager = new ArcLayoutManager(arcControl);
         layoutTestRv.setLayoutManager(arcLayoutManager);
         mAdapter = new CommonAdapter<String>(this, R.layout.item_arc_card, list) {
             @Override

@@ -11,15 +11,17 @@ import com.zhy.adapter.recyclerview.base.ViewHolder;
 import java.util.List;
 
 public class TanTanTouchCallback extends ItemTouchHelper.SimpleCallback {
-    protected RecyclerView mRv;
-    protected List mDatas;
-    protected RecyclerView.Adapter mAdapter;
+    private  RecyclerView mRv;
+    private List mDatas;
+    private RecyclerView.Adapter mAdapter;
+    private TanTanControl tanTanControl;
 
-    public TanTanTouchCallback(RecyclerView rv, RecyclerView.Adapter adapter, List datas) {
+    public TanTanTouchCallback(RecyclerView rv, RecyclerView.Adapter adapter, List datas,TanTanControl tanTanControl) {
         super(0, ItemTouchHelper.DOWN | ItemTouchHelper.UP | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         mRv = rv;
         mAdapter = adapter;
         mDatas = datas;
+        this.tanTanControl =tanTanControl;
     }
 
     @Override
@@ -66,10 +68,10 @@ public class TanTanTouchCallback extends ItemTouchHelper.SimpleCallback {
             int level = childCount - i - 1;
             if (level > 0) {
                 //说有层数都进行X方形的变形
-                child.setScaleX((float) (1 - CardConfig.DEFAULT_SCALE * level + fraction * CardConfig.DEFAULT_SCALE));
-                if (level < CardConfig.DEFAULT_COUNT - 1) {
-                    child.setScaleY((float) (1 - CardConfig.DEFAULT_SCALE * level + fraction * CardConfig.DEFAULT_SCALE));
-                    child.setTranslationY((float) (CardConfig.DEFAULT_TRANS_Y * level - fraction * CardConfig.DEFAULT_TRANS_Y));
+                child.setScaleX((float) (1 - tanTanControl.getScale()* level + fraction * tanTanControl.getScale()));
+                if (level < tanTanControl.getCount() - 1) {
+                    child.setScaleY((float) (1 - tanTanControl.getScale() * level + fraction * tanTanControl.getScale()));
+                    child.setTranslationY((float) (tanTanControl.getTranslateY() * level - fraction * tanTanControl.getTranslateY()));
                 } else {
                     //不进行动画
                 }
